@@ -1,0 +1,15 @@
+{
+  "task": "Prepare a reviewed quarterly report from public evidence",
+  "predictable_path": false,
+  "dynamic_tool_choice": true,
+  "stable_categories": true,
+  "known_independent_tasks": 3,
+  "runtime_discovery": false,
+  "hard_validation_rules": true,
+  "iterative_quality_gain": true,
+  "long_wait_or_approval": true,
+  "failure_recovery_required": false,
+  "standardized_tool_access": false,
+  "independent_remote_agents": false
+}
+
