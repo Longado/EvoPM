@@ -50,3 +50,27 @@ class TaskProfile:
         normalized = dict(data)
         normalized["task"] = task.strip()
         return cls(**normalized)
+
+
+@dataclass(frozen=True)
+class Recommendation:
+    """Explainable output from the deterministic decision engine."""
+
+    task: str
+    base_pattern: str
+    additions: tuple[str, ...]
+    rationale: tuple[str, ...]
+    not_needed: tuple[str, ...]
+    upgrade_trigger: str
+
+    def as_dict(self) -> dict[str, object]:
+        """Return a JSON-serializable representation."""
+
+        return {
+            "task": self.task,
+            "base_pattern": self.base_pattern,
+            "additions": list(self.additions),
+            "rationale": list(self.rationale),
+            "not_needed": list(self.not_needed),
+            "upgrade_trigger": self.upgrade_trigger,
+        }
