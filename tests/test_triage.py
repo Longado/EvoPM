@@ -18,9 +18,7 @@ def test_unpredictable_path_uses_single_agent():
 
 
 def test_runtime_discovery_uses_bounded_manager_workers():
-    result = recommend(
-        TaskProfile(task="Unknown research decomposition", runtime_discovery=True)
-    )
+    result = recommend(TaskProfile(task="Unknown research decomposition", runtime_discovery=True))
     assert result.base_pattern == "bounded_manager_workers"
 
 
@@ -53,9 +51,7 @@ def test_cross_cutting_requirements_are_composable():
 
 
 def test_failure_recovery_alone_adds_persistence():
-    result = recommend(
-        TaskProfile(task="Resume after failure", failure_recovery_required=True)
-    )
+    result = recommend(TaskProfile(task="Resume after failure", failure_recovery_required=True))
     assert "persistence_or_durable_runtime" in result.additions
 
 

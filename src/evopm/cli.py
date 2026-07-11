@@ -28,7 +28,9 @@ def _load_profile(path: str) -> TaskProfile:
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as error:
-        raise ValueError(f"invalid JSON: {error.msg} at line {error.lineno} column {error.colno}") from error
+        raise ValueError(
+            f"invalid JSON: {error.msg} at line {error.lineno} column {error.colno}"
+        ) from error
     if not isinstance(data, dict):
         raise ValueError("task profile must be a JSON object")
     return TaskProfile.from_dict(data)
