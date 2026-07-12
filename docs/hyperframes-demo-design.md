@@ -27,15 +27,11 @@ Purpose: show how architecture can expand before the need is proven.
 
 ### Scene 3 · Give EvoPM the task · 9–14s
 
-Show the quarterly-report task and the command:
+Show the quarterly-report task, its three constraints, and a clear confirmation that the task structure is ready for architecture review.
 
-```text
-evopm triage examples/quarterly-report.json
-```
+### Scene 4 · Explainable decision flow · 14–23s
 
-### Scene 4 · Evidence · 14–23s
-
-Use a shortened segment of the existing VHS terminal recording. Keep the task and base-pattern result visible; do not make viewers read the complete CLI output.
+Show three visual steps: read task constraints, choose the least-complex control pattern, and make the upgrade trigger explicit.
 
 ### Scene 5 · Decision · 23–31s
 
@@ -59,13 +55,13 @@ github.com/Longado/EvoPM
 - Dark neutral background with restrained violet and blue accents.
 - Large editorial typography; one claim per scene.
 - Diagrams are abstract responsibility blocks, not framework logos.
-- Terminal footage is supporting evidence, not the main visual language.
+- Use one consistent card-and-diagram visual language throughout the product video.
 - Motion should clarify state changes; avoid decorative particles and excessive transitions.
 
 ## Implementation boundary
 
 - Use HyperFrames as the HTML-to-MP4 renderer.
-- Reuse the verified VHS MP4 as the only recorded source asset.
+- Keep the VHS terminal demo separate as a README technical artifact; do not embed it in the product video.
 - Keep the composition deterministic and version-controlled.
 - Do not add narration, avatars, a product UI, analytics, or new EvoPM features.
 - Use only local or permissively licensed audio; omit music if licensing cannot be verified.
@@ -80,7 +76,7 @@ github.com/Longado/EvoPM
 
 - Duration is 34–38 seconds.
 - A viewer understands the problem and recommendation without audio.
-- The terminal segment occupies less than one-third of the runtime.
+- No terminal footage appears in the product video.
 - The repository URL is visible for at least three seconds.
 - No local paths, private data, credentials, or unverified claims appear.
 - Rendering is reproducible from version-controlled source.

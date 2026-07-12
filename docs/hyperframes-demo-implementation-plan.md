@@ -1,213 +1,34 @@
 # EvoPM HyperFrames Demo Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+**Goal:** Render a silent 36-second English product introduction that explains EvoPM without showing a terminal.
 
-**Goal:** Render a silent 36-second English EvoPM product demo that uses the existing terminal recording as evidence inside a broader product story.
+**Architecture:** One self-contained HyperFrames HTML composition owns the six-scene timeline, typography, diagrams, and motion. HyperFrames 0.7.54 renders the MP4; FFmpeg extracts the poster frame. The separate VHS recording remains a README technical demo.
 
-**Architecture:** One self-contained HyperFrames HTML composition owns the timeline, typography, diagrams, and terminal clip placement. HyperFrames 0.7.54 renders the MP4; FFmpeg extracts a poster frame; no new EvoPM product code or JavaScript project is introduced.
-
-**Tech Stack:** HyperFrames 0.7.54, HTML/CSS, GSAP 3, existing VHS MP4, FFmpeg
-
----
+**Tech Stack:** HyperFrames 0.7.54, HTML/CSS, GSAP 3, FFmpeg
 
 ## File map
 
-- Create `docs/demo/hyperframes/index.html`: complete six-scene composition.
-- Create `docs/demo/hyperframes/assets/evopm-triage.mp4`: render-safe copy of the verified terminal evidence with one-second keyframes.
-- Create `docs/demo/evopm-product-demo.mp4`: final 1920×1080 video.
-- Create `docs/demo/evopm-product-demo-poster.png`: representative closing frame.
+- `docs/demo/hyperframes/index.html`: six-scene product composition.
+- `docs/demo/evopm-product-demo.mp4`: final 1920×1080 video.
+- `docs/demo/evopm-product-demo-poster.png`: representative closing frame.
 
-### Task 1: Author the six-scene composition
+## Build and review
 
-- [ ] Create `docs/demo/hyperframes/index.html` with this complete composition:
+- [x] Frame the problem: complexity often arrives before proof.
+- [x] Show a representative task and its constraints as a product card.
+- [x] Explain the decision flow: read constraints, choose the base pattern, name the upgrade trigger.
+- [x] Show the resulting recommendation and unnecessary complexity.
+- [x] Close with the product promise and public repository URL.
+- [x] Keep terminal footage out of the product video.
+- [x] Run HyperFrames lint and validation.
+- [x] Inspect representative frames for readability and visual continuity.
+- [x] Render the final MP4 and extract its poster.
+- [x] Run repository tests, style checks, and media metadata checks.
 
-```html
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EvoPM — Decide before you orchestrate</title>
-  <style>
-    :root { --bg:#070912; --panel:#111526; --text:#f7f8ff; --muted:#9aa4c3; --violet:#9b87f5; --blue:#67b7ff; --green:#72e6b1; --line:#252b43; }
-    * { box-sizing:border-box; }
-    html, body { width:100%; height:100%; margin:0; overflow:hidden; background:var(--bg); color:var(--text); font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    #root { position:relative; width:1920px; height:1080px; overflow:hidden; background:radial-gradient(circle at 72% 20%, #1b2350 0, transparent 34%), linear-gradient(145deg, #070912 0%, #0b1020 58%, #090b14 100%); }
-    .grid { position:absolute; inset:0; opacity:.22; background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size:64px 64px; mask-image:linear-gradient(to bottom, transparent, black 22%, black 78%, transparent); }
-    .brand { position:absolute; top:58px; left:72px; display:flex; align-items:center; gap:14px; font-size:24px; font-weight:750; letter-spacing:.02em; z-index:20; }
-    .mark { width:28px; height:28px; border:6px solid var(--violet); border-right-color:var(--blue); transform:rotate(45deg); border-radius:8px; }
-    .scene { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; visibility:hidden; }
-    .content { width:1640px; position:relative; }
-    .eyebrow { color:var(--violet); text-transform:uppercase; letter-spacing:.18em; font-size:22px; font-weight:750; margin-bottom:26px; }
-    h1 { font-size:94px; line-height:1.02; letter-spacing:-.045em; margin:0; max-width:1500px; }
-    h2 { font-size:66px; line-height:1.08; letter-spacing:-.035em; margin:0; }
-    .sub { color:var(--muted); font-size:31px; line-height:1.45; margin-top:28px; max-width:1180px; }
-    .pill { display:inline-flex; align-items:center; padding:13px 20px; border:1px solid #343c60; border-radius:999px; background:#151a2d; color:#cbd2ea; font:600 22px ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .accent { color:var(--green); }
-    .node-field { position:relative; height:560px; margin-top:20px; }
-    .core { position:absolute; left:650px; top:205px; width:340px; padding:30px; text-align:center; border:2px solid var(--violet); border-radius:24px; background:#171b31; font-size:30px; font-weight:800; box-shadow:0 0 70px rgba(155,135,245,.24); }
-    .node { position:absolute; width:250px; padding:20px; text-align:center; border:1px solid #354064; border-radius:18px; background:#101426; color:#c6cee8; font-size:24px; }
-    .n1{left:210px;top:70px}.n2{left:1180px;top:70px}.n3{left:90px;top:340px}.n4{left:1300px;top:340px}.n5{left:695px;top:450px}
-    .warning { position:absolute; left:0; right:0; bottom:0; text-align:center; color:#ffbd7a; font-size:28px; font-weight:700; }
-    .task-card { padding:44px; border:1px solid #303a5e; border-radius:28px; background:rgba(17,21,38,.94); box-shadow:0 28px 90px rgba(0,0,0,.32); }
-    .task-title { font-size:34px; line-height:1.35; margin-bottom:34px; }
-    .constraints { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:38px; }
-    .terminal-line { overflow:hidden; width:0; border-radius:18px; background:#060810; border:1px solid #242a43; padding:24px 30px; color:#d9def3; font:600 27px ui-monospace, SFMono-Regular, Menlo, monospace; white-space:nowrap; }
-    .video-shell { width:1480px; margin:auto; padding:18px; border:1px solid #303a5e; border-radius:30px; background:#0d1120; box-shadow:0 38px 100px rgba(0,0,0,.42); }
-    .video-top { display:flex; gap:10px; padding:2px 2px 16px; }
-    .dot { width:14px; height:14px; border-radius:50%; background:#37405f; }
-    .evidence-video { position:absolute; left:238px; top:195px; width:1444px; height:720px; object-fit:contain; border-radius:18px; background:#090b14; z-index:8; }
-    .evidence-label { position:absolute; right:100px; top:-52px; color:var(--muted); font-size:21px; letter-spacing:.12em; text-transform:uppercase; }
-    .decision { display:grid; grid-template-columns:1.25fr .75fr; gap:28px; margin-top:28px; }
-    .decision-main, .decision-side { border:1px solid #303a5e; border-radius:28px; background:rgba(17,21,38,.94); padding:44px; }
-    .decision-main { border-color:#4c5c8f; }
-    .label { color:var(--muted); font-size:22px; text-transform:uppercase; letter-spacing:.14em; margin-bottom:22px; }
-    .pattern { color:var(--green); font:800 51px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing:-.04em; }
-    .rule { color:#dbe1f6; font-size:30px; margin-top:30px; }
-    .not-needed { display:flex; flex-direction:column; gap:16px; }
-    .not-needed span { padding:16px 18px; border-radius:14px; background:#0b0e19; color:#aab4d2; font:600 22px ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .close { text-align:center; }
-    .close h1 { margin:auto; font-size:106px; }
-    .url { margin-top:54px; color:var(--blue); font:700 30px ui-monospace, SFMono-Regular, Menlo, monospace; }
-  </style>
-</head>
-<body>
-  <div id="root" data-composition-id="root" data-start="0" data-width="1920" data-height="1080" data-duration="36" data-fps="30">
-    <div class="grid"></div><div class="brand"><span class="mark"></span>EvoPM</div>
-    <section id="s1" class="scene clip" data-start="0" data-duration="4"><div class="content"><div class="eyebrow">Before you build</div><h1>Do I need a<br><span class="accent">multi-agent system?</span></h1><p class="sub">Architecture should follow evidence—not excitement.</p></div></section>
-    <section id="s2" class="scene clip" data-start="4" data-duration="5"><div class="content"><div class="eyebrow">The default failure mode</div><div class="node-field"><div class="core">One task</div><div class="node n1">Manager</div><div class="node n2">Workers</div><div class="node n3">Router</div><div class="node n4">MCP + A2A</div><div class="node n5">Durable runtime</div><div class="warning">Complexity arrived before proof.</div></div></div></section>
-    <section id="s3" class="scene clip" data-start="9" data-duration="5"><div class="content"><div class="eyebrow">Give EvoPM the task</div><div class="task-card"><div class="task-title">Prepare a reviewed quarterly report from public evidence.</div><div class="constraints"><span class="pill">3 independent evidence areas</span><span class="pill">hard validation</span><span class="pill">approval required</span></div><div id="command" class="terminal-line">$ evopm triage examples/quarterly-report.json</div></div></div></section>
-    <section id="s4" class="scene clip" data-start="14" data-duration="9"><div class="content"><div class="evidence-label">Deterministic evidence</div><div class="video-shell"><div class="video-top"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div><div style="height:720px"></div></div></div></section>
-    <video id="evidence-video" class="clip evidence-video" src="assets/evopm-triage.mp4" data-start="14" data-duration="9" data-media-start="6" data-volume="0" muted playsinline></video>
-    <section id="s5" class="scene clip" data-start="23" data-duration="8"><div class="content"><div class="eyebrow">The decision</div><div class="decision"><div class="decision-main"><div class="label">Base pattern</div><div class="pattern">single_agent_with_tools</div><div class="rule">Add only what this task can justify.</div></div><div class="decision-side"><div class="label">Not needed now</div><div class="not-needed"><span>manager / workers</span><span>MCP boundary</span><span>A2A boundary</span></div></div></div></div></section>
-    <section id="s6" class="scene clip" data-start="31" data-duration="5"><div class="content close"><div class="eyebrow">EvoPM</div><h1>Decide before<br>you orchestrate.</h1><div class="url">github.com/Longado/EvoPM</div></div></section>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-  <script>
-    const tl = gsap.timeline({ paused: true });
-    function reveal(id, start, end) {
-      const scene = document.querySelector(id);
-      const content = scene.querySelector('.content');
-      tl.fromTo(content, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.55 }, start);
-      tl.to(content, { opacity: 0, y: -24, duration: 0.4 }, end - 0.4);
-      tl.set(content, { opacity: 0 }, end);
-    }
-    reveal('#s1', 0, 4); reveal('#s2', 4, 9); reveal('#s3', 9, 14);
-    reveal('#s4', 14, 23); reveal('#s5', 23, 31); reveal('#s6', 31, 36);
-    tl.fromTo('.node', { opacity: 0, scale: 0.72 }, { opacity: 1, scale: 1, duration: 0.38, stagger: 0.16 }, 4.7);
-    tl.fromTo('#command', { width: 0 }, { width: '100%', duration: 1.25 }, 10.6);
-    tl.fromTo('.pattern', { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.55 }, 23.8);
-    window.__timelines = window.__timelines || {};
-    window.__timelines.root = tl;
-  </script>
-</body>
-</html>
-```
-- [ ] Use six timed `.scene.clip` sections at `0–4`, `4–9`, `9–14`, `14–23`, `23–31`, and `31–36` seconds.
-- [ ] Re-encode the existing terminal evidence with one-second H.264 keyframes and place it at `docs/demo/hyperframes/assets/evopm-triage.mp4`.
-- [ ] Load `assets/evopm-triage.mp4` as a direct child of the composition root with `data-media-start="6"`, muted playback, and `object-fit: contain`.
-- [ ] Register a paused GSAP timeline as `window.__timelines.root`; animate scene content in and out, stagger the complexity nodes, reveal the command, and emphasize the final decision.
-- [ ] Keep all claims limited to existing CLI output:
+## Acceptance
 
-```text
-Do I need a multi-agent system?
-Complexity arrived before proof.
-single_agent_with_tools
-Not needed now: Manager/Workers, MCP, A2A
-Decide before you orchestrate.
-github.com/Longado/EvoPM
-```
-
-- [ ] Run `npx --yes hyperframes@0.7.54 lint docs/demo/hyperframes`.
-
-Expected: no lint error.
-
-- [ ] Run `npx --yes hyperframes@0.7.54 validate docs/demo/hyperframes`.
-
-Expected: no JavaScript error, missing local asset, or composition initialization error.
-
-### Task 2: Render and inspect a draft
-
-- [ ] Run:
-
-```bash
-npx --yes hyperframes@0.7.54 render docs/demo/hyperframes \
-  -o docs/demo/evopm-product-demo.mp4 \
-  -f 30 -q draft --video-frame-format png --workers 2
-```
-
-Expected: a non-empty 1920×1080 MP4.
-
-- [ ] Capture review frames:
-
-```bash
-npx --yes hyperframes@0.7.54 snapshot docs/demo/hyperframes \
-  --at 2,6.5,11.5,18,27,34 --no-end \
-  -o /tmp/evopm-hyperframes-review
-```
-
-Expected: six readable frames representing every scene.
-
-- [ ] Inspect the frames and verify:
-  - no text is clipped;
-  - the terminal is supporting evidence rather than the primary visual language;
-  - `single_agent_with_tools` is the strongest visual element in Scene 5;
-  - the repository URL is legible in the closing scene.
-
-### Task 3: Render final assets and verify
-
-- [ ] Re-render at standard quality:
-
-```bash
-npx --yes hyperframes@0.7.54 render docs/demo/hyperframes \
-  -o docs/demo/evopm-product-demo.mp4 \
-  -f 30 -q standard --video-frame-format png --workers 2
-```
-
-- [ ] Extract the closing poster frame:
-
-```bash
-ffmpeg -y -i docs/demo/evopm-product-demo.mp4 -ss 33 \
-  -frames:v 1 docs/demo/evopm-product-demo-poster.png
-```
-
-- [ ] Verify media metadata:
-
-```bash
-ffprobe -v error -show_entries stream=codec_name,width,height \
-  -show_entries format=duration,size -of default=noprint_wrappers=1 \
-  docs/demo/evopm-product-demo.mp4
-```
-
-Expected: H.264, 1920×1080, duration 34–38 seconds, non-zero size.
-
-- [ ] Verify no sensitive paths or claims appear in source:
-
-```bash
-! rg -n "/Users/|eddie|jianghao|api[_-]?key|token" \
-  docs/demo/hyperframes/index.html
-```
-
-- [ ] Run repository checks:
-
-```bash
-.venv/bin/python -m pytest -q
-.venv/bin/python -m ruff check .
-git diff --check
-```
-
-Expected: 17 tests pass, Ruff passes, and no whitespace error is reported.
-
-### Task 4: Commit the reviewed product demo
-
-- [ ] Commit only the HyperFrames source and generated product-video assets:
-
-```bash
-git add docs/demo/hyperframes/index.html \
-  docs/demo/hyperframes/assets/evopm-triage.mp4 \
-  docs/demo/evopm-product-demo.mp4 \
-  docs/demo/evopm-product-demo-poster.png
-git commit -m "docs: add HyperFrames product demo"
-```
-
-Expected: one focused commit. Do not merge, push, tag, or publish in this task.
+- Silent H.264 MP4, 1920×1080, approximately 36 seconds.
+- No terminal, local path, private name, credential, or unsupported product claim appears.
+- The three-step decision logic is readable without narration.
+- `single_agent_with_tools` is the strongest visual element in the recommendation scene.
+- The closing repository URL is legible.
