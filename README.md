@@ -1,4 +1,8 @@
-# EvoPM
+<p align="center">
+  <img src="docs/assets/evopm-logo.svg" alt="EvoPM logo" width="80">
+</p>
+
+<h1 align="center">EvoPM</h1>
 
 > **Status: design-stage / alpha.** EvoPM is a decision framework with a small deterministic CLI. It is **not** an agent runtime, autonomous PM, or production governance platform.
 
