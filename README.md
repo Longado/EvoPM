@@ -26,6 +26,16 @@ The example starts with a quarterly-report task, recommends the simplest justifi
 
 ## Quick start
 
+EvoPM requires Python 3.11 or newer. Check your interpreter before creating the
+environment:
+
+```bash
+python3 -c 'import sys; assert sys.version_info >= (3, 11), "EvoPM requires Python 3.11+"'
+```
+
+If that check fails, replace `python3` below with an installed Python 3.11+
+command, such as `python3.11`.
+
 ```bash
 git clone https://github.com/Longado/EvoPM.git
 cd EvoPM
@@ -38,7 +48,7 @@ evopm triage examples/quarterly-report.json
 The same command works without installation:
 
 ```bash
-PYTHONPATH=src python -m evopm triage examples/quarterly-report.json
+PYTHONPATH=src python3 -m evopm triage examples/quarterly-report.json
 ```
 
 Use JSON output for automation:

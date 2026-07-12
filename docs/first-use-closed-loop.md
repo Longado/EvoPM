@@ -1,6 +1,6 @@
 # First-use closed-loop case
 
-> Status: design review pending; implementation has not started  
+> Status: onboarding loop closed on 2026-07-12; core product validation remains open
 > Scope: public, reproducible onboarding evidence only
 
 ## Decision
@@ -75,6 +75,57 @@ The candidate passes only when:
 ## Accepted downside
 
 This case validates onboarding, not whether EvoPM recommendations reduce project rework. Core product validation remains open and must use a real baseline-versus-candidate project case later.
+
+## Observed evidence
+
+The comparison used one macOS machine after checkout. Clone latency was excluded.
+The default `python3` was Python 3.9.6; the supported comparison interpreter
+was Python 3.11.15.
+
+### Baseline observations
+
+| Path | Command boundary | Exit | Elapsed | Observed result |
+| --- | --- | ---: | ---: | --- |
+| No install | `PYTHONPATH=src python3 -m evopm triage examples/quarterly-report.json` | 1 | 0.253 s | Import stopped with `TypeError: unsupported operand type(s) for \|` before the CLI could explain the version requirement. |
+| Editable install | `python3 -m venv .venv`, then `python -m pip install -e .` | 1 | 7.255 s | The Python 3.9 environment used pip 21.2.4, which rejected the editable install from the `pyproject.toml` build. |
+
+No recommendation was produced by either baseline path.
+
+### Candidate observations
+
+| Path | Command boundary | Exit | Elapsed | Observed result |
+| --- | --- | ---: | ---: | --- |
+| Unsupported-interpreter preflight | README version check with default Python 3.9.6 | 1 | 0.168 s | Stopped before environment creation with `AssertionError: EvoPM requires Python 3.11+`. |
+| Editable install | Revised path using Python 3.11.15 | 0 | 27.083 s | Installation completed and the CLI produced a recommendation. |
+| No install | Revised path using Python 3.11.15 | 0 | 0.135 s | The CLI produced the same recommendation. |
+
+The first successful recommendation was:
+
+```text
+Base pattern: single_agent_with_tools
+Additions: router, parallel_fan_out_fan_in, deterministic_validator,
+           evaluator_optimizer, persistence_or_durable_runtime
+Upgrade trigger: Add manager/workers only when subtasks must be discovered at
+                 runtime and the decomposition benefit is measurable.
+```
+
+### Evaluation
+
+| Rule | Result | Evidence |
+| --- | --- | --- |
+| Python 3.11+ is visible before environment creation | Pass | The prerequisite and executable check precede the setup commands. |
+| Unsupported default interpreter is detected early | Pass | Python 3.9.6 stopped at the preflight in 0.168 seconds. |
+| Installed and no-install paths return exit status 0 | Pass | Both Python 3.11.15 paths completed successfully. |
+| First recommendation appears within five minutes | Pass | The slower full install path completed in 27.083 seconds after checkout. |
+| Existing tests and Ruff checks pass | Pass | 17 tests passed; Ruff reported all checks passed. |
+| Public-content review passes | Pass | Manual review and path/name/secret scans found no private material or unsupported conclusion. |
+
+## Outcome
+
+Keep the README change. The same case changed from an unexplained failure to an
+early, actionable version boundary and two successful paths. This closes only
+the onboarding evidence loop. It does not support a claim that EvoPM improves
+project decisions or reduces rework.
 
 ## Revisit trigger
 
