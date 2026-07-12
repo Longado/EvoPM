@@ -12,6 +12,18 @@ It focuses on three recurring failure modes:
 
 The first runnable component is `evopm triage`: a deterministic rule engine that maps explicit task constraints to an explainable orchestration recommendation.
 
+## Product overview
+
+[![Watch the 36-second EvoPM product overview](docs/demo/evopm-product-demo-poster.png)](docs/demo/evopm-product-demo.mp4)
+
+In 36 seconds: why architecture should follow task constraints, how EvoPM selects the smallest justified pattern, and when complexity is allowed to increase.
+
+## See it decide
+
+![EvoPM choosing an orchestration pattern](docs/demo/evopm-triage.gif)
+
+The example starts with a quarterly-report task, recommends the simplest justified control pattern, and makes the unnecessary complexity explicit. Reproduce it with the [quick start](#quick-start) below.
+
 ## Quick start
 
 ```bash
@@ -104,4 +116,3 @@ python -m build
 ## License
 
 MIT
-

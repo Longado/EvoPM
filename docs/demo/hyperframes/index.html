@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EvoPM — Decide before you orchestrate</title>
+  <style>
+    :root { --bg:#070912; --panel:#111526; --text:#f7f8ff; --muted:#9aa4c3; --violet:#9b87f5; --blue:#67b7ff; --green:#72e6b1; --line:#252b43; }
+    * { box-sizing:border-box; }
+    html, body { width:100%; height:100%; margin:0; overflow:hidden; background:var(--bg); color:var(--text); font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    #root { position:relative; width:1920px; height:1080px; overflow:hidden; background:radial-gradient(circle at 72% 20%, #1b2350 0, transparent 34%), linear-gradient(145deg, #070912 0%, #0b1020 58%, #090b14 100%); }
+    .grid { position:absolute; inset:0; opacity:.22; background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size:64px 64px; mask-image:linear-gradient(to bottom, transparent, black 22%, black 78%, transparent); }
+    .brand { position:absolute; top:58px; left:72px; display:flex; align-items:center; gap:14px; font-size:24px; font-weight:750; letter-spacing:.02em; z-index:20; }
+    .mark { width:28px; height:28px; border:6px solid var(--violet); border-right-color:var(--blue); transform:rotate(45deg); border-radius:8px; }
+    .scene { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; visibility:hidden; }
+    .content { width:1640px; position:relative; }
+    .eyebrow { color:var(--violet); text-transform:uppercase; letter-spacing:.18em; font-size:22px; font-weight:750; margin-bottom:26px; }
+    h1 { font-size:94px; line-height:1.02; letter-spacing:-.045em; margin:0; max-width:1500px; }
+    h2 { font-size:66px; line-height:1.08; letter-spacing:-.035em; margin:0; }
+    .sub { color:var(--muted); font-size:31px; line-height:1.45; margin-top:28px; max-width:1180px; }
+    .pill { display:inline-flex; align-items:center; padding:13px 20px; border:1px solid #343c60; border-radius:999px; background:#151a2d; color:#cbd2ea; font:600 22px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .accent { color:var(--green); }
+    .node-field { position:relative; height:560px; margin-top:20px; }
+    .core { position:absolute; left:650px; top:205px; width:340px; padding:30px; text-align:center; border:2px solid var(--violet); border-radius:24px; background:#171b31; font-size:30px; font-weight:800; box-shadow:0 0 70px rgba(155,135,245,.24); }
+    .node { position:absolute; width:250px; padding:20px; text-align:center; border:1px solid #354064; border-radius:18px; background:#101426; color:#c6cee8; font-size:24px; }
+    .n1{left:210px;top:70px}.n2{left:1180px;top:70px}.n3{left:90px;top:340px}.n4{left:1300px;top:340px}.n5{left:695px;top:450px}
+    .warning { position:absolute; left:0; right:0; bottom:0; text-align:center; color:#ffbd7a; font-size:28px; font-weight:700; }
+    .task-card { padding:44px; border:1px solid #303a5e; border-radius:28px; background:rgba(17,21,38,.94); box-shadow:0 28px 90px rgba(0,0,0,.32); }
+    .task-title { font-size:34px; line-height:1.35; margin-bottom:34px; }
+    .constraints { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:38px; }
+    .intake-line { display:flex; align-items:center; gap:16px; border-radius:18px; background:#0d1221; border:1px solid #2e385b; padding:22px 28px; color:#d9def3; font-size:25px; font-weight:650; }
+    .intake-icon { display:grid; place-items:center; width:42px; height:42px; border-radius:12px; background:rgba(114,230,177,.12); color:var(--green); font-size:24px; }
+    .flow { display:grid; grid-template-columns:1fr 80px 1fr 80px 1fr; align-items:center; margin-top:48px; }
+    .flow-card { min-height:330px; padding:38px; border:1px solid #303a5e; border-radius:26px; background:rgba(17,21,38,.94); }
+    .flow-step { color:var(--violet); font:750 20px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing:.14em; }
+    .flow-card h3 { margin:28px 0 18px; font-size:37px; letter-spacing:-.03em; }
+    .flow-card p { color:var(--muted); font-size:24px; line-height:1.5; margin:0; }
+    .flow-arrow { text-align:center; color:var(--blue); font-size:48px; }
+    .decision { display:grid; grid-template-columns:1.25fr .75fr; gap:28px; margin-top:28px; }
+    .decision-main, .decision-side { border:1px solid #303a5e; border-radius:28px; background:rgba(17,21,38,.94); padding:44px; }
+    .decision-main { border-color:#4c5c8f; }
+    .label { color:var(--muted); font-size:22px; text-transform:uppercase; letter-spacing:.14em; margin-bottom:22px; }
+    .pattern { color:var(--green); font:800 51px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing:-.04em; }
+    .rule { color:#dbe1f6; font-size:30px; margin-top:30px; }
+    .not-needed { display:flex; flex-direction:column; gap:16px; }
+    .not-needed span { padding:16px 18px; border-radius:14px; background:#0b0e19; color:#aab4d2; font:600 22px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .close { text-align:center; }
+    .close h1 { margin:auto; font-size:106px; }
+    .url { margin-top:54px; color:var(--blue); font:700 30px ui-monospace, SFMono-Regular, Menlo, monospace; }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="root" data-start="0" data-width="1920" data-height="1080" data-duration="36" data-fps="30">
+    <div class="grid"></div><div class="brand"><span class="mark"></span>EvoPM</div>
+    <section id="s1" class="scene clip" data-start="0" data-duration="4"><div class="content"><div class="eyebrow">Before you build</div><h1>Do I need a<br><span class="accent">multi-agent system?</span></h1><p class="sub">Architecture should follow evidence—not excitement.</p></div></section>
+    <section id="s2" class="scene clip" data-start="4" data-duration="5"><div class="content"><div class="eyebrow">The default failure mode</div><div class="node-field"><div class="core">One task</div><div class="node n1">Manager</div><div class="node n2">Workers</div><div class="node n3">Router</div><div class="node n4">MCP + A2A</div><div class="node n5">Durable runtime</div><div class="warning">Complexity arrived before proof.</div></div></div></section>
+    <section id="s3" class="scene clip" data-start="9" data-duration="5"><div class="content"><div class="eyebrow">Give EvoPM the task</div><div class="task-card"><div class="task-title">Prepare a reviewed quarterly report from public evidence.</div><div class="constraints"><span class="pill">3 independent evidence areas</span><span class="pill">hard validation</span><span class="pill">approval required</span></div><div id="intake" class="intake-line"><span class="intake-icon">✓</span><span>Task structure captured — ready for architecture review</span></div></div></div></section>
+    <section id="s4" class="scene clip" data-start="14" data-duration="9"><div class="content"><div class="eyebrow">Explainable by design</div><h2>From constraints to the smallest justified architecture.</h2><div class="flow"><div class="flow-card"><div class="flow-step">01 · INPUT</div><h3>Read constraints</h3><p>Task path, validation rules, approval, recovery, and independent evidence areas.</p></div><div class="flow-arrow">→</div><div class="flow-card"><div class="flow-step">02 · DECIDE</div><h3>Choose the base pattern</h3><p>Start with the least-complex control model that can satisfy the task.</p></div><div class="flow-arrow">→</div><div class="flow-card"><div class="flow-step">03 · EXPLAIN</div><h3>Name the upgrade trigger</h3><p>Add complexity only when a measurable failure requires it.</p></div></div></div></section>
+    <section id="s5" class="scene clip" data-start="23" data-duration="8"><div class="content"><div class="eyebrow">The decision</div><div class="decision"><div class="decision-main"><div class="label">Base pattern</div><div class="pattern">single_agent_with_tools</div><div class="rule">Add only what this task can justify.</div></div><div class="decision-side"><div class="label">Not needed now</div><div class="not-needed"><span>manager / workers</span><span>MCP boundary</span><span>A2A boundary</span></div></div></div></div></section>
+    <section id="s6" class="scene clip" data-start="31" data-duration="5"><div class="content close"><div class="eyebrow">EvoPM</div><h1>Decide before<br>you orchestrate.</h1><div class="url">github.com/Longado/EvoPM</div></div></section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    function reveal(id, start, end) {
+      const scene = document.querySelector(id);
+      const content = scene.querySelector('.content');
+      tl.fromTo(content, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.55 }, start);
+      tl.to(content, { opacity: 0, y: -24, duration: 0.4 }, end - 0.4);
+      tl.set(content, { opacity: 0 }, end);
+    }
+    reveal('#s1', 0, 4); reveal('#s2', 4, 9); reveal('#s3', 9, 14);
+    reveal('#s4', 14, 23); reveal('#s5', 23, 31); reveal('#s6', 31, 36);
+    tl.fromTo('.node', { opacity: 0, scale: 0.72 }, { opacity: 1, scale: 1, duration: 0.38, stagger: 0.16 }, 4.7);
+    tl.fromTo('#intake', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55 }, 10.6);
+    tl.fromTo('.flow-card', { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.35 }, 15.0);
+    tl.fromTo('.flow-arrow', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.35, stagger: 0.35 }, 15.35);
+    tl.fromTo('.pattern', { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.55 }, 23.8);
+    window.__timelines = window.__timelines || {};
+    window.__timelines.root = tl;
+  </script>
+</body>
+</html>
