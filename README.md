@@ -34,7 +34,7 @@ EvoPM requires Python 3.11 or newer. Check your interpreter before creating the
 environment:
 
 ```bash
-python3 -c 'import sys; assert sys.version_info >= (3, 11), "EvoPM requires Python 3.11+"'
+python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else "EvoPM requires Python 3.11+")'
 ```
 
 If that check fails, replace `python3` below with an installed Python 3.11+
@@ -108,7 +108,7 @@ The broader EvoPM design has three independent parts:
 - **Project Adapters:** domain-specific judgment, starting with software and agent development;
 - **Governed Learning:** observations become cross-project rules only after two independent validations or explicit owner confirmation.
 
-Only the deterministic orchestration triage CLI is implemented in this release. See [core design](docs/core-design.md) for the intended boundary.
+Only the deterministic orchestration triage CLI is implemented in this release. See [core design](docs/core-design.md) for the intended boundary and the [first-use closed-loop case](docs/first-use-closed-loop.md) for onboarding evidence.
 
 ## Development
 
