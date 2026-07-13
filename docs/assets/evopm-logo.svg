@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">EvoPM logo</title>
+  <path d="M32 8 56 32 32 56 8 32Z" fill="none" stroke="#9B87F5" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M56 32 32 56" fill="none" stroke="#67B7FF" stroke-width="8" stroke-linecap="round"/>
+</svg>

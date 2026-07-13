@@ -1,4 +1,8 @@
-# EvoPM
+<p align="center">
+  <img src="docs/assets/evopm-logo.svg" alt="EvoPM logo" width="80">
+</p>
+
+<h1 align="center">EvoPM</h1>
 
 > **Status: design-stage / alpha.** EvoPM is a decision framework with a small deterministic CLI. It is **not** an agent runtime, autonomous PM, or production governance platform.
 
@@ -26,6 +30,16 @@ The example starts with a quarterly-report task, recommends the simplest justifi
 
 ## Quick start
 
+EvoPM requires Python 3.11 or newer. Check your interpreter before creating the
+environment:
+
+```bash
+python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else "EvoPM requires Python 3.11+")'
+```
+
+If that check fails, replace `python3` below with an installed Python 3.11+
+command, such as `python3.11`.
+
 ```bash
 git clone https://github.com/Longado/EvoPM.git
 cd EvoPM
@@ -38,7 +52,7 @@ evopm triage examples/quarterly-report.json
 The same command works without installation:
 
 ```bash
-PYTHONPATH=src python -m evopm triage examples/quarterly-report.json
+PYTHONPATH=src python3 -m evopm triage examples/quarterly-report.json
 ```
 
 Use JSON output for automation:
@@ -94,7 +108,7 @@ The broader EvoPM design has three independent parts:
 - **Project Adapters:** domain-specific judgment, starting with software and agent development;
 - **Governed Learning:** observations become cross-project rules only after two independent validations or explicit owner confirmation.
 
-Only the deterministic orchestration triage CLI is implemented in this release. See [core design](docs/core-design.md) for the intended boundary.
+Only the deterministic orchestration triage CLI is implemented in this release. See [core design](docs/core-design.md) for the intended boundary and the [first-use closed-loop case](docs/first-use-closed-loop.md) for onboarding evidence.
 
 ## Development
 
