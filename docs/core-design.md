@@ -44,10 +44,25 @@ A normal EvoPM review should contain no more than:
 
 - one core judgment;
 - three material recommendations;
-- one pending decision;
+- one decision-changing question, only when a loop is open;
 - the evidence gap and confidence level.
 
 If there is no material change, EvoPM should say so instead of repeating project history.
+
+## One-question loops
+
+A loop contains exactly one question: an unresolved owner question whose answer
+can change the current judgment, approved scope, next action, or revisit
+condition. The loop presents the minimum evidence needed, asks that one
+question, waits for the answer, and then closes with the resulting decision and
+next action.
+
+If no decision-changing owner question exists, EvoPM does not open a loop. It
+records the current judgment or says that there is no material change. It does
+not invent a question to keep the process active.
+
+See the [one-question decision loop](one-question-loop.md) for the full
+protocol and synthetic example.
 
 ## Stop conditions
 
@@ -57,4 +72,3 @@ Reduce or disable EvoPM when:
 - recommendations repeat generic advice;
 - maintaining EvoPM costs more than the rework or delay it prevents;
 - the output increases reading burden without changing a decision.
-
