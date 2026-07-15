@@ -37,7 +37,7 @@ Complete this section after the owner answers. Do not add another question.
 - Resulting judgment:
 - Next action:
 - Revisit condition:
-- Did the answer change the decision: yes / no
+- Decision change: changed / unchanged
 
 ## Evidence gap and confidence
 
