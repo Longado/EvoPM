@@ -108,7 +108,12 @@ The broader EvoPM design has three independent parts:
 - **Project Adapters:** domain-specific judgment, starting with software and agent development;
 - **Governed Learning:** observations become cross-project rules only after two independent validations or explicit owner confirmation.
 
-Only the deterministic orchestration triage CLI is implemented in this release. See [core design](docs/core-design.md) for the intended boundary and the [first-use closed-loop case](docs/first-use-closed-loop.md) for onboarding evidence.
+Only the deterministic orchestration triage CLI is implemented in this release.
+See [core design](docs/core-design.md) for the intended boundary, the
+[one-question decision loop](docs/one-question-loop.md) for the rule that a loop
+opens only around one decision-changing owner question, and the
+[first-use closed-loop case](docs/first-use-closed-loop.md) for onboarding
+evidence.
 
 ## Development
 
@@ -124,6 +129,7 @@ python -m build
 - Minimize autonomy; add only the mechanism that solves an observed failure.
 - Prefer deterministic validation for hard rules.
 - Keep recommendations short, explainable, rejectable, and reversible.
+- Open a loop only for exactly one owner question whose answer can change the decision.
 - Do not promote one-off experience into permanent policy.
 - Measure reduced rework and decision time, not document volume.
 

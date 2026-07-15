@@ -12,9 +12,32 @@ List no more than three. Each recommendation should include evidence, impact, ac
 2. 
 3. 
 
-## Pending decision
+## One-question loop gate
 
-One question for the project owner. Remove this section when no decision is required.
+Name the owner decision and state how different answers would change the
+judgment, approved scope, next action, or revisit condition. If no answer can
+change one of those outcomes, remove this section and do not open a loop.
+
+## Question
+
+Write exactly one question. Do not combine requests or include a follow-up
+question.
+
+## Decision consequences
+
+- Answer or boundary: resulting decision and next action.
+- Answer or boundary: resulting decision and next action.
+- Ambiguous answer: close as `HOLD` and record the ambiguity.
+
+## Closed decision
+
+Complete this section after the owner answers. Do not add another question.
+
+- Owner answer:
+- Resulting judgment:
+- Next action:
+- Revisit condition:
+- Did the answer change the decision: yes / no
 
 ## Evidence gap and confidence
 
@@ -22,4 +45,3 @@ One question for the project owner. Remove this section when no decision is requ
 - Evidence missing:
 - Confidence:
 - Revisit trigger:
-

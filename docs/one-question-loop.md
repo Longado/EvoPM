@@ -1,6 +1,6 @@
 # One-question decision loop
 
-> Design status: approved for implementation on 2026-07-15
+> Status: public protocol
 
 The one-question decision loop keeps EvoPM focused on decisions that require the
 project owner. It is a review protocol, not an interactive runtime or workflow
@@ -93,9 +93,9 @@ first-run completion?
 This is one question even though it has multiple possible answers. Each answer
 has a predeclared effect on the decision.
 
-## Public implementation scope
+## Public scope
 
-The first implementation changes only:
+This protocol is implemented through:
 
 - the PM Core output rule in `docs/core-design.md`;
 - the public decision-card template;
